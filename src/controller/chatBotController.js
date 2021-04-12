@@ -1,14 +1,14 @@
 require('dotenv').config();
 import request from "request";
 
-let postWebHook = (req, res) => {
-    let body = req.body;
+const postWebHook = (req, res) => {
+    const body = req.body;
     // checks to see if its an event from page subscription 
     if (body.object === 'page') {
         body.entry.forEach((entry) => {
             // get the message since entry.messaging is an array
             // we get the first index since it would only ever have one message
-            let webhoook_event = entry.messaging[0];
+            const webhoook_event = entry.messaging[0];
             console.log(webhoook_event);
         });
         // returns a 200 ok status to all request
@@ -18,13 +18,13 @@ let postWebHook = (req, res) => {
     }
 }
 
-let getWebhook = (req, res) => {
+const getWebhook = (req, res) => {
     // verify token
-    let VERIFY_TOKEN = process.env.MY_VERIFY_TOKEN;
+    const VERIFY_TOKEN = process.env.MY_VERIFY_TOKEN;
     // parse query params
-    let mode = req.query['hub.mode'];
-    let token = req.query['hub.verify_token'];
-    let challenge = req.query['hub.challenge'];
+    const mode = req.query['hub.mode'];
+    const token = req.query['hub.verify_token'];
+    const challenge = req.query['hub.challenge'];
     //
     if (mode && token) {
         // checks mode and token
@@ -52,7 +52,7 @@ function handlePostback(sender_psid, received_postback) {
     let response;
 
     // Get the payload for the postback
-    let payload = received_postback.payload;
+    const payload = received_postback.payload;
 
     // Set the response based on the postback payload
     if (payload === 'yes') {
@@ -67,7 +67,7 @@ function handlePostback(sender_psid, received_postback) {
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
     // Construct the message body
-    let request_body = {
+    const request_body = {
         "recipient": {
             "id": sender_psid
         },
